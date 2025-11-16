@@ -1,0 +1,40 @@
+package com.project.main.controller;
+
+import com.project.main.domain.Post;
+import com.project.main.service.PostService;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/posts")
+public class PostController {
+
+    private final PostService service;
+
+    public PostController(PostService service) {
+        this.service = service;
+    }
+
+    @PostMapping
+    public PostResponse create(@RequestBody @Valid PostCreateRequest req) {
+        Post p = service.create(req.title(), req.content(), req.writer());
+
+        return PostResponse.from(p);
+    }
+
+    @GetMapping
+    public List<PostResponse> getAll() {
+        return service.getAll().stream()
+                .map(PostResponse::from)
+                .toList();
+    }
+
+    @GetMapping("/{id}")
+    public PostResponse getOne(@PathVariable Long id) {
+        Post p = service.getById(id);
+        if (p == null) throw new ResourceNotFoundException("post not found: " + id);
+        return PostResponse.from(p);
+    }
+}
