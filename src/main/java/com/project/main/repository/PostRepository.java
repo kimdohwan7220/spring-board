@@ -3,7 +3,9 @@ package com.project.main.repository;
 import com.project.main.domain.Post;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class PostRepository {
 
     private final List<Post> posts = new ArrayList<>();

@@ -19,8 +19,7 @@ public class PostController {
 
     @PostMapping
     public PostResponse create(@RequestBody @Valid PostCreateRequest req) {
-        Post p = service.create(req.title(), req.content(), req.writer());
-
+        Post p = service.create(req.getTitle(), req.getContent(), req.getWriter());
         return PostResponse.from(p);
     }
 
@@ -36,5 +35,15 @@ public class PostController {
         Post p = service.getById(id);
         if (p == null) throw new ResourceNotFoundException("post not found: " + id);
         return PostResponse.from(p);
+    }
+
+    @PutMapping("/{id}")
+    public void update(@PathVariable Long id,
+                       @RequestBody @Valid PostUpdateRequest req) {
+
+        boolean ok = service.update(id, req.getTitle(), req.getContent());
+        if (!ok) {
+            throw new ResourceNotFoundException("post not found: " + id);
+        }
     }
 }

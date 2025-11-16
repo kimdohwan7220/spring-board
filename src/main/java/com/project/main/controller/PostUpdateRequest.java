@@ -2,7 +2,7 @@ package com.project.main.controller;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class PostCreateRequest {
+public class PostUpdateRequest {
 
     @NotBlank
     private String title;
@@ -10,10 +10,7 @@ public class PostCreateRequest {
     @NotBlank
     private String content;
 
-    @NotBlank
-    private String writer;
-
-    public PostCreateRequest() {
+    public PostUpdateRequest() {
     }
 
     public String getTitle() {
@@ -22,9 +19,5 @@ public class PostCreateRequest {
 
     public String getContent() {
         return content;
-    }
-
-    public String getWriter() {
-        return writer;
     }
 }
