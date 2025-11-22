@@ -16,7 +16,8 @@ public class PostService {
     }
 
     public Post create(String title, String content, String writer) {
-        return repository.save(title, content, writer);
+        Post p = new Post(title, content, writer);
+        return repository.save(p);
     }
 
     public List<Post> getAll() {
@@ -24,14 +25,21 @@ public class PostService {
     }
 
     public Post getById(Long id) {
-        return repository.findById(id);
+        return repository.findById(id).orElse(null);
     }
 
     public boolean update(Long id, String newTitle, String newContent) {
-        return repository.update(id, newTitle, newContent);
+        return repository.findById(id).map(post -> {
+            post.updateContent(newTitle, newContent);
+            repository.save(post);
+            return true;
+        }).orElse(false);
     }
 
     public boolean delete(Long id) {
-        return repository.delete(id);
+        return repository.findById(id).map(post -> {
+            repository.delete(post);
+            return true;
+        }).orElse(false);
     }
 }
