@@ -46,4 +46,12 @@ public class PostController {
             throw new ResourceNotFoundException("post not found: " + id);
         }
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        boolean ok = service.delete(id);
+        if (!ok) {
+            throw new ResourceNotFoundException("post not found: " + id);
+        }
+    }
 }
