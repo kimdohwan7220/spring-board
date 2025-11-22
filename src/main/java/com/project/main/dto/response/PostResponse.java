@@ -1,4 +1,4 @@
-package com.project.main.controller;
+package com.project.main.dto.response;
 import com.project.main.domain.Post;
 
 public record PostResponse(Long id, String title, String content, String writer) {
