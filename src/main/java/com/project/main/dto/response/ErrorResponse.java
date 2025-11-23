@@ -1,4 +1,4 @@
-package com.project.main.controller;
+package com.project.main.dto.response;
 
 public record ErrorResponse(
         int status,
