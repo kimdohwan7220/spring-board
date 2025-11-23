@@ -1,6 +1,7 @@
 package com.project.main.domain;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "posts")
@@ -17,6 +18,9 @@ public class Post {
     private String content;
 
     @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(nullable = false)
     private String writer;
 
     protected Post() {}
@@ -25,6 +29,7 @@ public class Post {
         this.title = title;
         this.content = content;
         this.writer = writer;
+        this.createdAt = LocalDateTime.now();
     }
 
     public void updateContent(String newTitle, String newContent) {
@@ -36,4 +41,5 @@ public class Post {
     public String getTitle() { return title; }
     public String getContent() { return content; }
     public String getWriter() { return writer; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
 }
