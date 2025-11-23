@@ -16,6 +16,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    private String profileImage;
+
     protected User() {}
 
     public User(String username, String password) {
@@ -26,4 +28,9 @@ public class User {
     public Long getId() { return id; }
     public String getUsername() { return username; }
     public String getPassword() { return password; }
+    public String getProfileImage() { return profileImage; }
+
+    public void setPassword(String newPw) { this.password = newPw; }
+    public void setProfileImage(String path) { this.profileImage = path; }
+    public void setUsername(String username) { this.username = username; }
 }
