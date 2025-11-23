@@ -66,4 +66,17 @@ public class PostController {
 
         return ResponseEntity.noContent().build();  // 204 No Content
     }
+
+    @PostMapping("/{id}/views")
+    public void increaseViews(@PathVariable Long id) {
+        service.increaseViews(id);
+    }
+
+    @PostMapping("/{id}/like")
+    public PostResponse toggleLike(
+            @PathVariable Long id,
+            @RequestParam String username
+    ) {
+        return PostResponse.from(service.toggleLike(id, username));
+    }
 }

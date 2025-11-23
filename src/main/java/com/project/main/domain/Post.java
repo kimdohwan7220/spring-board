@@ -23,6 +23,15 @@ public class Post {
     @Column(nullable = false)
     private String writer;
 
+    @Column(nullable = false)
+    private int likes = 0;
+
+    @Column(nullable = false)
+    private int views = 0;
+
+    @Column(nullable = false)
+    private int commentCount = 0;
+
     protected Post() {}
 
     public Post(String title, String content, String writer) {
@@ -42,4 +51,13 @@ public class Post {
     public String getContent() { return content; }
     public String getWriter() { return writer; }
     public LocalDateTime getCreatedAt() { return createdAt; }
+
+    public int getLikes() { return likes; }
+    public int getViews() { return views; }
+    public int getCommentCount() { return commentCount; }
+
+    public void increaseViews() { this.views++; }
+    public void increaseCommentCount() { this.commentCount++; }
+
+    public void setLikes(int likes) { this.likes = likes; }
 }

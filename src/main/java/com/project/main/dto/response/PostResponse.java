@@ -7,7 +7,10 @@ public record PostResponse(
         String title,
         String content,
         String writer,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        int likes,
+        int views,
+        int commentCount
 ) {
     public static PostResponse from(Post p) {
         return new PostResponse(
@@ -15,7 +18,10 @@ public record PostResponse(
                 p.getTitle(),
                 p.getContent(),
                 p.getWriter(),
-                p.getCreatedAt()
+                p.getCreatedAt(),
+                p.getLikes(),
+                p.getViews(),
+                p.getCommentCount()
         );
     }
 }
