@@ -2,6 +2,8 @@ package com.project.main.domain;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "posts")
@@ -31,6 +33,9 @@ public class Post {
 
     @Column(nullable = false)
     private int commentCount = 0;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     protected Post() {}
 
