@@ -1,4 +1,4 @@
-<h1>📘 Spring + React 게시판 프로젝트</h1>
+<h1>📘 Spring + React 게시판 프로젝트 - 백엔드</h1>
 
 <p>
 이 프로젝트는 <strong>Spring Boot</strong>와 <strong>React</strong>로 구성된 풀스택 게시판 서비스입니다.<br>
