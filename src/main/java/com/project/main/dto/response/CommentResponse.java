@@ -7,14 +7,16 @@ public record CommentResponse(
         Long id,
         String writer,
         String content,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        String profileImage
 ) {
-    public static CommentResponse from(Comment c) {
+    public static CommentResponse from(Comment c, String profileImage) {
         return new CommentResponse(
                 c.getId(),
                 c.getWriter(),
                 c.getContent(),
-                c.getCreatedAt()
+                c.getCreatedAt(),
+                profileImage
         );
     }
 }

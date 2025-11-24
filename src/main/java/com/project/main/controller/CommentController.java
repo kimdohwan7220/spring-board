@@ -24,16 +24,21 @@ public class CommentController {
             @PathVariable Long postId,
             @RequestBody CommentCreateRequest req
     ) {
-        return CommentResponse.from(
-                service.create(postId, req.getWriter(), req.getContent())
-        );
+        return service.create(postId, req.getWriter(), req.getContent());
     }
 
     @GetMapping
     public List<CommentResponse> getComments(@PathVariable Long postId) {
-        return service.getComments(postId).stream()
-                .map(CommentResponse::from)
-                .toList();
+        return service.getComments(postId);
+    }
+
+    @PutMapping("/{commentId}")
+    public CommentResponse update(
+            @PathVariable Long postId,
+            @PathVariable Long commentId,
+            @RequestBody CommentUpdateRequest req
+    ) {
+        return service.update(postId, commentId, req.getContent());
     }
 
     @DeleteMapping("/{commentId}")
@@ -43,16 +48,5 @@ public class CommentController {
     ) {
         service.delete(postId, commentId);
         return ResponseEntity.noContent().build();
-    }
-
-    @PutMapping("/{commentId}")
-    public CommentResponse update(
-            @PathVariable Long postId,
-            @PathVariable Long commentId,
-            @RequestBody CommentUpdateRequest req
-    ) {
-        return CommentResponse.from(
-                service.update(postId, commentId, req.getContent())
-        );
     }
 }

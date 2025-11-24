@@ -51,18 +51,26 @@ public class Post {
         this.content = newContent;
     }
 
+    public void increaseViews() { this.views++; }
+
+    public void increaseCommentCount() {
+        this.commentCount++;
+    }
+
+    public void decreaseCommentCount() {
+        if (this.commentCount > 0) this.commentCount--;
+    }
+
+    // getter
     public Long getId() { return id; }
     public String getTitle() { return title; }
     public String getContent() { return content; }
     public String getWriter() { return writer; }
     public LocalDateTime getCreatedAt() { return createdAt; }
-
     public int getLikes() { return likes; }
     public int getViews() { return views; }
     public int getCommentCount() { return commentCount; }
 
-    public void increaseViews() { this.views++; }
-    public void increaseCommentCount() { this.commentCount++; }
-
     public void setLikes(int likes) { this.likes = likes; }
+
 }
