@@ -25,21 +25,26 @@ public class PostController {
     @PostMapping
     public PostResponse create(@RequestBody @Valid PostCreateRequest req) {
         Post p = service.create(req.getTitle(), req.getContent(), req.getWriter());
-        return PostResponse.from(p);
+        return PostResponse.from(p, false); // 기본 liked false
     }
 
     @GetMapping
-    public List<PostResponse> getAll() {
+    public List<PostResponse> getAll(@RequestParam(required = false) String username) {
         return service.getAll().stream()
-                .map(PostResponse::from)
+                .map(p -> PostResponse.from(p, service.isLiked(p.getId(), username)))
                 .toList();
     }
 
     @GetMapping("/{id}")
-    public PostResponse getOne(@PathVariable Long id) {
+    public PostResponse getOne(
+            @PathVariable Long id,
+            @RequestParam(required = false) String username
+    ) {
         Post p = service.getById(id);
         if (p == null) throw new ResourceNotFoundException("post not found: " + id);
-        return PostResponse.from(p);
+
+        boolean liked = service.isLiked(id, username);
+        return PostResponse.from(p, liked);
     }
 
     @PutMapping("/{id}")
@@ -52,7 +57,7 @@ public class PostController {
             throw new ResourceNotFoundException("post not found: " + id);
         }
 
-        return ResponseEntity.noContent().build();  // 204 응답
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
@@ -64,12 +69,13 @@ public class PostController {
             throw new ResourceNotFoundException("post not found: " + id);
         }
 
-        return ResponseEntity.noContent().build();  // 204 No Content
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{id}/views")
-    public void increaseViews(@PathVariable Long id) {
+    public ResponseEntity<Void> increaseViews(@PathVariable Long id) {
         service.increaseViews(id);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{id}/like")
@@ -77,6 +83,9 @@ public class PostController {
             @PathVariable Long id,
             @RequestParam String username
     ) {
-        return PostResponse.from(service.toggleLike(id, username));
+        Post updated = service.toggleLike(id, username);
+        boolean liked = service.isLiked(id, username);
+
+        return PostResponse.from(updated, liked);
     }
 }

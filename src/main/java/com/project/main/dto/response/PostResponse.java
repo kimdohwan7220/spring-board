@@ -1,4 +1,5 @@
 package com.project.main.dto.response;
+
 import com.project.main.domain.Post;
 import java.time.LocalDateTime;
 
@@ -10,9 +11,10 @@ public record PostResponse(
         LocalDateTime createdAt,
         int likes,
         int views,
-        int commentCount
+        int commentCount,
+        boolean liked
 ) {
-    public static PostResponse from(Post p) {
+    public static PostResponse from(Post p, boolean liked) {
         return new PostResponse(
                 p.getId(),
                 p.getTitle(),
@@ -21,7 +23,8 @@ public record PostResponse(
                 p.getCreatedAt(),
                 p.getLikes(),
                 p.getViews(),
-                p.getCommentCount()
+                p.getCommentCount(),
+                liked
         );
     }
 }

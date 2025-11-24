@@ -35,7 +35,6 @@ public class PostService {
         return repository.findById(id).orElse(null);
     }
 
-    @Transactional
     public boolean update(Long id, String newTitle, String newContent) {
         return repository.findById(id).map(post -> {
             post.updateContent(newTitle, newContent);
@@ -44,7 +43,6 @@ public class PostService {
         }).orElse(false);
     }
 
-    @Transactional
     public boolean delete(Long id) {
         return repository.findById(id).map(post -> {
             repository.delete(post);
@@ -61,13 +59,6 @@ public class PostService {
     }
 
     @Transactional
-    public void increaseCommentCount(Long id) {
-        Post post = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("post not found"));
-        post.increaseCommentCount();
-    }
-
-    @Transactional
     public Post toggleLike(Long postId, String username) {
         Post post = repository.findById(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("post not found"));
@@ -75,17 +66,19 @@ public class PostService {
         Optional<PostLike> likeOpt = likeRepository.findByPostIdAndUsername(postId, username);
 
         if (likeOpt.isPresent()) {
-            // 이미 좋아요 누른 상태 → 취소
             likeRepository.deleteByPostIdAndUsername(postId, username);
         } else {
-            // 좋아요 처음 → 추가
             likeRepository.save(new PostLike(postId, username));
         }
 
-        // 최신 좋아요 수 반영
         int likeCount = likeRepository.countByPostId(postId);
         post.setLikes(likeCount);
 
         return repository.save(post);
+    }
+
+    public boolean isLiked(Long postId, String username) {
+        if (username == null || username.isBlank()) return false;
+        return likeRepository.findByPostIdAndUsername(postId, username).isPresent();
     }
 }
